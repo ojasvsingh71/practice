@@ -19,8 +19,27 @@ app.post("/register", async (req, res) => {
     })
 
     res.status(201).json({
-        message:"Registered Bu...",
+        message: "Registered Bu...",
         user
+    })
+})
+
+app.post("/login", async (req, res) => {
+    const { username, password } = req.body;
+
+    const bu = await buu.findOne({ username });
+
+    if (!bu) {
+        res.status(404).json({
+            message: "Cannot find bu :("
+        })
+    } else if (password !== bu.password) {
+        res.status(401).json({
+            message: "Incorrect password :("
+        })
+    } else res.status(201).json({
+        message: "Found bu :)",
+        bu,
     })
 })
 
