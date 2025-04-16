@@ -12,6 +12,10 @@ const Bu = mongoose.Schema({
     },
     age: {
         type: Number
+    },
+    gender: {
+        type: String,
+        required: true
     }
 })
 

@@ -10,12 +10,13 @@ app.use(express.json());
 connectDB();
 
 app.post("/register", async (req, res) => {
-    const { username, password, age } = req.body;
+    const { username, password, age, gender } = req.body;
 
     const user = await buu.create({
         username: username,
         password: password,
-        age: age
+        age: age,
+        gender: gender
     })
 
     res.status(201).json({
@@ -25,7 +26,7 @@ app.post("/register", async (req, res) => {
 })
 
 app.post("/login", async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, gender } = req.body;
 
     const bu = await buu.findOne({ username });
 
@@ -33,9 +34,9 @@ app.post("/login", async (req, res) => {
         res.status(404).json({
             message: "Cannot find bu :("
         })
-    } else if (password !== bu.password) {
+    } else if (password !== bu.password || gender !== bu.gender) {
         res.status(401).json({
-            message: "Incorrect password :("
+            message: "Incorrect password :( or :]"
         })
     } else res.status(201).json({
         message: "Found bu :)",
