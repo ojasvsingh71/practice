@@ -2,16 +2,17 @@
   "name": "practice",
   "version": "1.0.0",
   "description": "Just to parctice my ongoing skills",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"nodemon index.js",
-    "start":"node index.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^5.1.0",
     "mongoose": "^8.13.2",
     "nodemon": "^3.1.9"
