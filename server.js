@@ -1,9 +1,11 @@
 import express from "express"
-import secret from "./secret.js"
+import dotenv from "dotenv"
 import connectDB from "./lib/connectBD.js"
 import authRoute from "./routes/auth.route.js"
 
 const app = express();
+
+dotenv.config();
 
 app.use(express.json());
 
@@ -11,10 +13,10 @@ connectDB();
 
 app.use("/auth", authRoute);
 
-app.get('/', (req, res) => {
+app.get('/', (res) => {
     res.send("Hello BU.....\n");
 })
 
-app.listen(secret.PORT, (req, res) => {
-    console.log(`\nServer is running on http://localhost:${secret.PORT}\n`);
+app.listen(process.env.PORT, () => {
+    console.log(`\nServer is running on http://localhost:${process.env.PORT}\n`);
 })
