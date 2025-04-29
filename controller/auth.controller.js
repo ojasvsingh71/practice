@@ -1,5 +1,6 @@
 import buu from "../models/bu.model.js"
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 const register = async (req, res) => {
     const { username, password, age, gender } = req.body;
@@ -22,20 +23,36 @@ const login = async (req, res) => {
     const { username, password, gender } = req.body;
 
     const bu = await buu.findOne({ username });
-    const isPassMatch = await bcrypt.compare(password, bu.password);
 
     if (!bu) {
         res.status(404).json({
             message: "Cannot find bu :("
         })
-    } else if (!isPassMatch || gender !== bu.gender) {
+    } 
+
+    const isPassMatch = await bcrypt.compare(password, bu.password);
+
+    if (!isPassMatch || gender !== bu.gender) {
         res.status(401).json({
             message: "Incorrect password :( or :]"
         })
-    } else res.status(201).json({
-        message: "Found bu :)",
-        bu,
-    })
+    } else {
+        const token = jwt.sign(
+            { id: bu._id, username: bu.username },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
+        res.status(200).json({
+            message: "Found bu :)",
+            token,
+            user: {
+                id: bu._id,
+                username: bu.username,
+                age: bu.age
+            }
+        });
+    }
 }
 
 export default { login, register };
