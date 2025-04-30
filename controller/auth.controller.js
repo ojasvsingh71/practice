@@ -28,7 +28,7 @@ const login = async (req, res) => {
         res.status(404).json({
             message: "Cannot find bu :("
         })
-    } 
+    }
 
     const isPassMatch = await bcrypt.compare(password, bu.password);
 
@@ -49,6 +49,7 @@ const login = async (req, res) => {
             user: {
                 id: bu._id,
                 username: bu.username,
+                gender: bu.gender,
                 age: bu.age
             }
         });
