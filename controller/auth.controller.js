@@ -40,8 +40,21 @@ const login = async (req, res) => {
         const token = jwt.sign(
             { id: bu._id, username: bu.username },
             process.env.JWT_SECRET,
-            { expiresIn: "1h" }
+            { expiresIn: "1m" }
         );
+
+        const refresh_token = jwt.sign(
+            { id: bu._id, username: bu.username },
+            process.env.JWT_REFRESH_SECRET,
+            { expiresIn: "7d" }
+        )
+
+        res.cookie("refreshToken", refresh_token, {
+            http: true,
+            secure: true,
+            sameSite: "Strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
 
         res.status(200).json({
             message: "Found bu :)",
@@ -56,4 +69,31 @@ const login = async (req, res) => {
     }
 }
 
-export default { login, register };
+const refresh = async (req, res) => {
+    const token = req.cookie.refresh_token;
+    if (!token) {
+        return res.status(401).json({
+            message: "No refresh token"
+        });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+
+        const newAcessToken = jwt.sign(
+            { id: decoded.id },
+            process.env.JWT_REFRESH_SECRET,
+            { expiresIn: "1h" }
+        );
+
+        res.status(200).json({
+            accesstoken: newAcessToken
+        });
+    } catch (err) {
+        res.status(403).json({
+            message: "Invalid refersh token"
+        });
+    }
+}
+
+export default { login, register, refresh };

@@ -11,6 +11,7 @@ route.get("/dashboard", authMiddleWare, (req, res) => {
         message: `Welcome ${req.bu.username}, this is your dashboard.`,
         user: req.bu
     })
-})
+});
+route.post("/refresh", authControl.refresh);
 
 export default route;
