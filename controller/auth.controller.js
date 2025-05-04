@@ -1,8 +1,16 @@
 import buu from "../models/bu.model.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import { validationResult } from "express-validator"
 
 const register = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            errors: errors.array()
+        });
+    }
+
     const { username, password, age, gender } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -96,4 +104,16 @@ const refresh = async (req, res) => {
     }
 }
 
-export default { login, register, refresh };
+const logout = async (req, res) => {
+    res.clearCookie("refreshtoken", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "Strict"
+    });
+
+    res.status(200).json({
+        message: "Logged out successfully"
+    });
+}
+
+export default { login, register, refresh, logout };
