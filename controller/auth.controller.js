@@ -25,7 +25,7 @@ const login = async (req, res) => {
     const bu = await buu.findOne({ username });
 
     if (!bu) {
-        res.status(404).json({
+        return res.status(404).json({
             message: "Cannot find bu :("
         })
     }
@@ -50,7 +50,7 @@ const login = async (req, res) => {
         )
 
         res.cookie("refreshToken", refresh_token, {
-            http: true,
+            httpOnly: true,
             secure: true,
             sameSite: "Strict",
             maxAge: 7 * 24 * 60 * 60 * 1000
@@ -70,7 +70,7 @@ const login = async (req, res) => {
 }
 
 const refresh = async (req, res) => {
-    const token = req.cookie.refresh_token;
+    const token = req?.cookies?.refresh_token;
     if (!token) {
         return res.status(401).json({
             message: "No refresh token"
@@ -82,7 +82,7 @@ const refresh = async (req, res) => {
 
         const newAcessToken = jwt.sign(
             { id: decoded.id },
-            process.env.JWT_REFRESH_SECRET,
+            process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );
 
