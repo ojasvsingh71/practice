@@ -7,9 +7,10 @@ const ojasv = {
   age: 18,
   pic: "https://hianimez.to/images/discussion.png",
   theme: {
-    backgroundColor: "black",
-    color: "pink",
-    display: "inline-block",
+    backgroundColor: "rgb(255, 11, 85)",
+    color: "rgb(255, 222, 222)",
+    borderRadius:"10%",
+    
   }
 }
 
@@ -29,13 +30,23 @@ export default function App() {
   let card = People[index]
 
   return (
-    <>
+    <div style={{
+      backgroundColor: "rgb(207, 15, 71)",
+      display:"flex",
+      justifyContent:"center"
+    }}>
       <div style={ojasv.theme}>
-        <button onClick={handlenext}>NEXT</button>
+        <button onClick={handlenext} style={{
+          justifyContent:"center"
+        }}>NEXT</button>
         <h1>{card.name}</h1>
-        <img src={ojasv.pic} alt={card.name}></img>
+        <img src={card.img} alt={card.name} style={{
+          height: "15rem",
+          width: "15rem",
+          objectFit: "contain"
+        }}></img>
 
-        {
+        {/* {
           People.map((frnd) => {
             return (
               <div key={frnd.id}>
@@ -44,8 +55,8 @@ export default function App() {
               </div>
             )
           })
-        }
+        } */}
       </div>
-    </>
+    </div>
   )
 }
