@@ -9,8 +9,7 @@ const ojasv = {
   theme: {
     backgroundColor: "rgb(255, 11, 85)",
     color: "rgb(255, 222, 222)",
-    borderRadius:"10%",
-    
+    borderRadius:"10%"
   }
 }
 
@@ -28,16 +27,19 @@ export default function App() {
   }
 
   let card = People[index]
+  let bg=document.body.style;
+  bg.backgroundColor=   "rgb(207, 15, 71)";
 
   return (
     <div style={{
-      backgroundColor: "rgb(207, 15, 71)",
       display:"flex",
       justifyContent:"center"
     }}>
       <div style={ojasv.theme}>
         <button onClick={handlenext} style={{
-          justifyContent:"center"
+          backgroundColor:"black",
+          color:"white",
+          borderRadius:"15rem"
         }}>NEXT</button>
         <h1>{card.name}</h1>
         <img src={card.img} alt={card.name} style={{
