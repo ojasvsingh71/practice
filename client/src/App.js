@@ -9,7 +9,7 @@ const ojasv = {
   theme: {
     backgroundColor: "rgb(255, 11, 85)",
     color: "rgb(255, 222, 222)",
-    borderRadius:"10%"
+    borderRadius: "10%"
   }
 }
 
@@ -17,6 +17,7 @@ export default function App() {
 
   const [index, changeIndex] = useState(0);
   const ismax = index === People.length - 1;
+  const [list, changeList] = useState(People)
 
   function handlenext() {
     if (ismax) {
@@ -26,20 +27,27 @@ export default function App() {
     }
   }
 
+  function reverse() {
+    const newList = [...list];
+    newList.reverse();
+    changeList(newList);
+    console.log(newList);
+  }
+
   let card = People[index]
-  let bg=document.body.style;
-  bg.backgroundColor=   "rgb(207, 15, 71)";
+  let bg = document.body.style;
+  bg.backgroundColor = "rgb(207, 15, 71)";
 
   return (
     <div style={{
-      display:"flex",
-      justifyContent:"center"
+      display: "flex",
+      justifyContent: "center"
     }}>
       <div style={ojasv.theme}>
         <button onClick={handlenext} style={{
-          backgroundColor:"black",
-          color:"white",
-          borderRadius:"15rem"
+          backgroundColor: "black",
+          color: "white",
+          borderRadius: "15rem"
         }}>NEXT</button>
         <h1>{card.name}</h1>
         <img src={card.img} alt={card.name} style={{
@@ -47,7 +55,7 @@ export default function App() {
           width: "15rem",
           objectFit: "contain"
         }}></img>
-
+        <button onClick={reverse}>Reverse</button>
         {/* {
           People.map((frnd) => {
             return (
