@@ -7,14 +7,19 @@ import { FaTrophy } from "react-icons/fa"
 import Lottie from "lottie-react"
 import Fish_ani from "./lottie_animations/Fish.json"
 import Panda_ani from "./lottie_animations/Panda.json"
+import Pengiun_ani from "./lottie_animations/Penguin.json"
 
 const Fish = () => <Lottie animationData={Fish_ani} loop={true} style={{
-  width:200,
-  height:200
-}}/>
+  width: 200,
+  height: 200
+}} />
 const Panda = () => <Lottie animationData={Panda_ani} loop={true} style={{
-  width:200,
-  height:200
+  width: 200,
+  height: 200
+}} />
+const Pengiun = () => <Lottie animationData={Pengiun_ani} loop={true} style={{
+  width: 200,
+  height: 200
 }} />
 
 const ojasv = {
@@ -63,6 +68,7 @@ export default function App() {
       transition={{ duration: 1 }}
     ><Panda />
       <Fish />
+      <Pengiun />
       <div style={ojasv.theme}>
         <button onClick={handlenext} style={{
           backgroundColor: "black",
