@@ -1,6 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 src/components/data.jsx
+src/lottie_animations
 
 # dependencies
 /node_modules
