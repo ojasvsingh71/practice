@@ -12,12 +12,18 @@ route.post("/register", [
     body("age").isNumeric()
 ], authControl.register);
 route.post("/login", authControl.login);
-route.get("/dashboard", authMiddleWare, (req, res) => {
+route.get("/Userdashboard", authMiddleWare("user", "admin"), (req, res) => {
     res.status(200).json({
-        message: `Welcome ${req.bu.username}, this is your dashboard.`,
+        message: `Welcome User ${req.bu.username}, this is your dashboard.`,
         user: req.bu
     })
 });
+route.get("/Admindashboard", authMiddleWare("admin"), (req, res) => {
+    res.status(200).json({
+        message: `Welcome Admin ${req.bu.username}, this is your dashboard.`,
+        user: req.bu
+    })
+})
 route.post("/refresh", authControl.refresh);
 route.post("/logout", authControl.logout);
 

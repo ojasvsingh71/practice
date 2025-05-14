@@ -11,14 +11,15 @@ const register = async (req, res) => {
         });
     }
 
-    const { username, password, age, gender } = req.body;
+    const { username, password, age, gender, role } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await buu.create({
         username: username,
         password: hashedPassword,
         age: age,
-        gender: gender
+        gender: gender,
+        role: role || 'user'
     })
 
     res.status(200).json({
@@ -46,20 +47,20 @@ const login = async (req, res) => {
         })
     } else {
         const token = jwt.sign(
-            { id: bu._id, username: bu.username },
+            { id: bu._id, username: bu.username, role: bu.role },
             process.env.JWT_SECRET,
             { expiresIn: "1m" }
         );
 
         const refresh_token = jwt.sign(
-            { id: bu._id, username: bu.username },
+            { id: bu._id, username: bu.username, role: bu.role },
             process.env.JWT_REFRESH_SECRET,
             { expiresIn: "7d" }
         )
 
         res.cookie("refreshToken", refresh_token, {
             httpOnly: true,
-            secure: true,
+            secure: false,
             sameSite: "Strict",
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
@@ -89,7 +90,7 @@ const refresh = async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
 
         const newAcessToken = jwt.sign(
-            { id: decoded.id },
+            { id: decoded.id, username: decoded.username, role: decoded.role },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );
